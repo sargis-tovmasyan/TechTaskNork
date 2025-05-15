@@ -35,7 +35,7 @@ namespace TechTask.Api.Controllers
             var category = await _dbContext.Categories
                 .AsNoTracking()
                 .Include(c => c.Products)
-                .FirstOrDefaultAsync(p => p.CategoryId == id);
+                .FirstOrDefaultAsync(p => p.Id == id);
 
             if (category == null)
             {
@@ -59,19 +59,19 @@ namespace TechTask.Api.Controllers
                 return Problem(exception.Message);
             }
 
-            return CreatedAtAction(nameof(GetCategoryById), new { id = category.CategoryId }, category);
+            return CreatedAtAction(nameof(GetCategoryById), new { id = category.Id }, category);
         }
 
         // PUT: api/Categories/1
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCategory(int id, [FromBody] Category updCategory)
         {
-            if (id != updCategory.CategoryId)
+            if (id != updCategory.Id)
             {
                 return BadRequest(); // ID mismatch between URL and body
             }
 
-            var existingEntity = await _dbContext.Categories.FindAsync(updCategory.CategoryId);
+            var existingEntity = await _dbContext.Categories.FindAsync(updCategory.Id);
             if (existingEntity == null) return NotFound(); //Nothing to update
 
             existingEntity.Name = updCategory.Name;

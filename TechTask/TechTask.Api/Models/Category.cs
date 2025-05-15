@@ -4,7 +4,7 @@ namespace TechTask.Api.Models
 {
     public class Category
     {
-        public int CategoryId { get; set; }
+        public int Id { get; set; }
 
         [Required(ErrorMessage = "Category name is required.")]
         [StringLength(255, ErrorMessage = "Category name can't be longer than 255 characters.")]

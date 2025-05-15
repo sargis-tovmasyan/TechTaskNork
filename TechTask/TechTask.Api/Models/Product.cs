@@ -4,7 +4,7 @@ namespace TechTask.Api.Models
 {
     public class Product
     {
-        public int ProductId { get; set; }
+        public int Id { get; set; }
 
         [Required(ErrorMessage = "Product name is required.")]
         [StringLength(255, ErrorMessage = "Product name cannot exceed 255 characters.")]
