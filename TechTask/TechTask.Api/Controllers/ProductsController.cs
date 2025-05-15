@@ -76,11 +76,10 @@ namespace TechTask.Api.Controllers
             var existingEntity = await _dbContext.Products.FindAsync(updProduct.Id);
             if (existingEntity == null) return NotFound(); //Nothing to update
 
-            existingEntity.Name = updProduct.Name;
-            existingEntity.Price = updProduct.Price;
-            existingEntity.StockQuantity = updProduct.StockQuantity;
-            existingEntity.CategoryID = updProduct.CategoryID;
-            existingEntity.SupplierId = updProduct.SupplierId;
+            _dbContext.Entry(existingEntity).CurrentValues.SetValues(updProduct);
+
+            //Not using this because its update all the properties even they are not changed
+            //Context.Entry(entity).State = EntityState.Modified;
 
             try
             {

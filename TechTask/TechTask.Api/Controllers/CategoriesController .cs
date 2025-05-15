@@ -74,8 +74,11 @@ namespace TechTask.Api.Controllers
             var existingEntity = await _dbContext.Categories.FindAsync(updCategory.Id);
             if (existingEntity == null) return NotFound(); //Nothing to update
 
-            existingEntity.Name = updCategory.Name;
-            
+            _dbContext.Entry(existingEntity).CurrentValues.SetValues(updCategory);
+
+            //Not using this because its update all the properties even they are not changed
+            //Context.Entry(entity).State = EntityState.Modified;
+
             try
             {
                 await _dbContext.SaveChangesAsync();
