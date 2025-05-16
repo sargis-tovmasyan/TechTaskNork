@@ -4,6 +4,8 @@ VisualStudioVersion = 17.13.35919.96
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechTask.Api", "TechTask.Api\TechTask.Api.csproj", "{47012FBA-C5F5-48DB-8A46-9D0C67292634}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechTask.Api.Tests", "TechTask.Api.Tests\TechTask.Api.Tests.csproj", "{A64A4B9D-7357-4710-AFA9-6E5CB03F426E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -14,6 +16,10 @@ Global
 		{47012FBA-C5F5-48DB-8A46-9D0C67292634}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{47012FBA-C5F5-48DB-8A46-9D0C67292634}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{47012FBA-C5F5-48DB-8A46-9D0C67292634}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A64A4B9D-7357-4710-AFA9-6E5CB03F426E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A64A4B9D-7357-4710-AFA9-6E5CB03F426E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A64A4B9D-7357-4710-AFA9-6E5CB03F426E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A64A4B9D-7357-4710-AFA9-6E5CB03F426E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,6 +1,8 @@
 
 using Microsoft.EntityFrameworkCore;
 using TechTask.Api.Database;
+using TechTask.Api.Interfaces;
+using TechTask.Api.Services;
 
 namespace TechTask.Api
 {
@@ -16,6 +18,11 @@ namespace TechTask.Api
             {
                 options.UseSqlite(builder.Configuration.GetConnectionString("SQLiteConnection"));
             });
+
+            builder.Services.AddScoped<IProductService, ProductService>();
+            //builder.Services.AddScoped<ICategoryService, CategoryService>();
+            //builder.Services.AddScoped<ISupplierService, SupplierService>();
+            //builder.Services.AddScoped<ITransactionService, TransactionService>();
 
             builder.Services.AddControllers();
 
