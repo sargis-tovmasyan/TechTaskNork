@@ -16,7 +16,7 @@ namespace TechTask.Api.Database
             modelBuilder.Entity<Product>()
                 .HasOne(p => p.Category)
                 .WithMany(c => c.Products)
-                .HasForeignKey(p => p.CategoryID);
+                .HasForeignKey(p => p.CategoryId);
 
             modelBuilder.Entity<Product>()
                 .HasOne(p => p.Supplier)

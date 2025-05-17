@@ -17,11 +17,11 @@ namespace TechTask.Api.Models
         public int StockQuantity { get; set; }
 
         [Required(ErrorMessage = "Category ID is required.")]
-        public int CategoryID { get; set; }
-        public Category Category { get; set; }
+        public int CategoryId { get; set; }
+        public Category? Category { get; set; }
 
         [Required(ErrorMessage = "Supplier ID is required.")]
         public int SupplierId { get; set; }
-        public Supplier Supplier { get; set; }
+        public Supplier? Supplier { get; set; }
     }
 }

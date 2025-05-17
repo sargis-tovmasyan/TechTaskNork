@@ -5,58 +5,95 @@ using TechTask.Api.Models;
 
 namespace TechTask.Api.Tests.Controllers;
 
-public class ProductsControllerTests
+public class ProductsControllerTests : IntegrationTestBase
 {
-    public class ProductsApiTests : IntegrationTestBase
+    public ProductsControllerTests(WebApplicationFactory<Program> factory) : base(factory)
     {
-        public ProductsApiTests(WebApplicationFactory<Program> factory) : base(factory)
-        {
-        }
+    }
 
-        [Fact]
-        public async Task PostProduct_Should_Return_Created()
-        {
-            var product = new { Name = "Test", Price = 10, Stock = 100 };
+    private Product GetProductForTest() => new Product
+    {
+        Name = "Test Product",
+        Price = 10.0,
+        StockQuantity = 100,
+        CategoryId = 1,
+        SupplierId = 1,
+    };
 
-            var response = await Client.PostAsJsonAsync("/api/products", product);
+    [Fact]
+    public async Task PostProduct_Should_Return_Created()
+    {
+        var response = await Client.PostAsJsonAsync("/api/products", GetProductForTest());
 
-            Assert.Equal(HttpStatusCode.Created, response.StatusCode);
-        }
+        Assert.Equal(HttpStatusCode.Created, response.StatusCode);
+    }
 
-        [Fact]
-        public async Task GetProducts_Should_Return_Ok()
-        {
-            var response = await Client.GetAsync("/api/products");
+    [Fact]
+    public async Task PostProduct_With_Invalid_model_Should_Return_BadRequest()
+    {
+        var product = GetProductForTest();
+        product.Name = string.Empty;
 
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        }
+        var response = await Client.PostAsJsonAsync("/api/products", product);
 
-        [Fact]
-        public async Task UpdateProduct_Should_Return_NoContent()
-        {
-            var create = new { Name = "ToUpdate", Price = 20 };
-            var post = await Client.PostAsJsonAsync("/api/products", create);
-            var created = await post.Content.ReadFromJsonAsync<Product>();
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+    }
 
-            created.Name = "Updated";
 
-            var response = await Client.PutAsJsonAsync($"/api/products/{created.Id}", created);
 
-            Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
-        }
+    [Fact]
+    public async Task GetProducts_Should_Return_Ok()
+    {
+        var response = await Client.GetAsync("/api/products");
 
-        [Fact]
-        public async Task DeleteProduct_Should_Return_NoContent()
-        {
-            var create = new { Name = "ToDelete", Price = 5 };
-            var post = await Client.PostAsJsonAsync("/api/products", create);
-            var created = await post.Content.ReadFromJsonAsync<Product>();
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+    }
 
-            var response = await Client.DeleteAsync($"/api/products/{created.Id}");
+    [Fact]
+    public async Task UpdateProduct_Should_Return_NoContent()
+    {
+        var post = await Client.PostAsJsonAsync("/api/products", GetProductForTest());
+        var created = await post.Content.ReadFromJsonAsync<Product>();
 
-            Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
-        }
+        created.Name = "Updated";
 
+        var response = await Client.PutAsJsonAsync($"/api/products/{created.Id}", created);
+
+        Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
+    }
+
+    [Fact]
+    public async Task UpdateProduct_With_Invalid_id_Should_Return_NotFound()
+    {
+        var product = GetProductForTest();
+        product.Id = 9999; // Assuming this doesn't exist
+
+        var response = await Client.PutAsJsonAsync($"/api/products/{product.Id}", product);
+
+        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+    }
+
+
+    [Fact]
+    public async Task DeleteProduct_Should_Return_NoContent()
+    {
+        var post = await Client.PostAsJsonAsync("/api/products", GetProductForTest());
+        var created = await post.Content.ReadFromJsonAsync<Product>();
+
+        var response = await Client.DeleteAsync($"/api/products/{created.Id}");
+
+        Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
+    }
+
+    [Fact]
+    public async Task DeleteProduct_WithInvalidId_Should_Return_NotFound()
+    {
+        var product = GetProductForTest();
+        product.Id = 9999; // Assuming this doesn't exist
+
+        var response = await Client.DeleteAsync($"/api/products/{product.Id}");
+
+        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
     }
 
 }

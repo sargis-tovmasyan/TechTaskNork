@@ -1,4 +1,3 @@
-
 using Microsoft.EntityFrameworkCore;
 using TechTask.Api.Database;
 using TechTask.Api.Interfaces;
@@ -6,7 +5,7 @@ using TechTask.Api.Services;
 
 namespace TechTask.Api
 {
-    public class Program
+    public partial class Program //Class is partial for integration tests
     {
         public static void Main(string[] args)
         {

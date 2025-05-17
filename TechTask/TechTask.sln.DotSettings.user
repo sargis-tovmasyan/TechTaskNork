@@ -1,0 +1,17 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=410d8a74_002D6fdd_002D4d86_002D80c7_002D763e2f2e0e79/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="PostProduct_Should_Return_Created #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::A64A4B9D-7357-4710-AFA9-6E5CB03F426E::net9.0::TechTask.Api.Tests.Controllers.ProductsControllerTests.PostProduct_Should_Return_Created&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::A64A4B9D-7357-4710-AFA9-6E5CB03F426E::net9.0::TechTask.Api.Tests.Controllers.ProductsControllerTests.GetProducts_Should_Return_Ok&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::A64A4B9D-7357-4710-AFA9-6E5CB03F426E::net9.0::TechTask.Api.Tests.Controllers.ProductsControllerTests.UpdateProduct_Should_Return_NoContent&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::A64A4B9D-7357-4710-AFA9-6E5CB03F426E::net9.0::TechTask.Api.Tests.Controllers.ProductsControllerTests.DeleteProduct_Should_Return_NoContent&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::A64A4B9D-7357-4710-AFA9-6E5CB03F426E::net9.0::TechTask.Api.Tests.Controllers.ProductsControllerTests.PostProduct_With_Invalid_model_Should_Return_BadRequest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::A64A4B9D-7357-4710-AFA9-6E5CB03F426E::net9.0::TechTask.Api.Tests.Controllers.ProductsControllerTests.UpdateProduct_With_Invalid_id_Should_Return_NotFound&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::A64A4B9D-7357-4710-AFA9-6E5CB03F426E::net9.0::TechTask.Api.Tests.Controllers.ProductsControllerTests.DeleteProduct_WithInvalidId_Should_Return_NotFound&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=790cc410_002De10b_002D475f_002Db863_002Da67dfcac50c5/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="PostProduct_Should_Return_Created" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::A64A4B9D-7357-4710-AFA9-6E5CB03F426E::net9.0::TechTask.Api.Tests.Controllers.ProductsControllerTests.PostProduct_Should_Return_Created&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

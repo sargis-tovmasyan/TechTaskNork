@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using TechTask.Api.Database;
+using TechTask.Api.Interfaces;
 using TechTask.Api.Models;
 using TechTask.Api.Services;
 
@@ -10,12 +9,10 @@ namespace TechTask.Api.Controllers
     [Route("api/[controller]")]
     public class ProductsController : ControllerBase
     {
-        private readonly AppDbContext _dbContext;
-        private readonly ProductService _productService;
+        private readonly IProductService _productService;
 
-        public ProductsController(AppDbContext dbContext, ProductService productService)
+        public ProductsController(IProductService productService)
         {
-            _dbContext = dbContext;
             _productService = productService;
         }
 
