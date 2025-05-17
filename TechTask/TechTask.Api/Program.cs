@@ -18,17 +18,14 @@ namespace TechTask.Api
                 options.UseSqlite(builder.Configuration.GetConnectionString("SQLiteConnection"));
             });
 
-            builder.Services.AddScoped<IProductService, ProductService>();
-            //builder.Services.AddScoped<ICategoryService, CategoryService>();
-            //builder.Services.AddScoped<ISupplierService, SupplierService>();
-            //builder.Services.AddScoped<ITransactionService, TransactionService>();
+            builder.Services.AddScoped<IProductsService, ProductsService>();
+            builder.Services.AddScoped<ICategoriesService, CategoriesService>();
+            builder.Services.AddScoped<ISuppliersService, SuppliersService>();
+            builder.Services.AddScoped<ITransactionsService, TransactionsService>();
 
             builder.Services.AddControllers();
 
             builder.Services.AddOpenApi();
-
-            //DI Mapping
-            //builder.Services.AddScoped()
 
             var app = builder.Build();
 

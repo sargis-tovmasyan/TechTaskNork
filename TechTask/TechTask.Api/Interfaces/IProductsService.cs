@@ -2,12 +2,12 @@
 
 namespace TechTask.Api.Interfaces
 {
-    public interface IProductService
+    public interface IProductsService
     {
-        Task<IEnumerable<Product>> GetProductsAsync();
-        Task<Product?> GetProductByIdAsync(int id);
-        Task<bool> PostProductAsync(Product product);
-        Task<bool> UpdateProductAsync(Product updProduct);
-        Task<bool> DeleteProductByIdAsync(int id);
+        Task<IEnumerable<Product>> GetAllAsync();
+        Task<Product?> GetByIdAsync(int id);
+        Task<bool> PostAsync(Product product);
+        Task<bool> UpdateAsync(Product updProduct);
+        Task<bool> DeleteByIdAsync(int id);
     }
 }

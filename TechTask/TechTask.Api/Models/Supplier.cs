@@ -10,6 +10,6 @@ namespace TechTask.Api.Models
         [StringLength(255, ErrorMessage = "Supplier name cannot exceed 255 characters.")]
         public string Name { get; set; }
 
-        public List<Product> Products { get; set; }
+        public List<Product>? Products { get; set; }
     }
 }

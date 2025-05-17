@@ -50,6 +50,17 @@ public class ProductsControllerTests : IntegrationTestBase
     }
 
     [Fact]
+    public async Task GetProductById_With_invalid_Id_Should_Return_NotFound()
+    {
+        var invalidId = 9999;
+
+        var response = await Client.GetAsync($"/api/products/{invalidId}");
+
+        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+    }
+
+
+    [Fact]
     public async Task UpdateProduct_Should_Return_NoContent()
     {
         var post = await Client.PostAsJsonAsync("/api/products", GetProductForTest());

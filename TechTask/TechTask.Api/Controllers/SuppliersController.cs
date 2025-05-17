@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using TechTask.Api.Database;
+using TechTask.Api.Interfaces;
 using TechTask.Api.Models;
 
 namespace TechTask.Api.Controllers
@@ -9,21 +8,18 @@ namespace TechTask.Api.Controllers
     [Route("api/[controller]")]
     public class SuppliersController : ControllerBase
     {
-        private readonly AppDbContext _dbContext;
+        private readonly ISuppliersService _suppliersService;
 
-        public SuppliersController(AppDbContext dbContext)
+        public SuppliersController(ISuppliersService suppliersService)
         {
-            _dbContext = dbContext;
+            _suppliersService = suppliersService;
         }
 
         // GET: api/Suppliers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Supplier>>> Get()
         {
-            var suppliers = await _dbContext.Suppliers
-                .AsNoTracking()
-                .Include(s => s.Products)
-                .ToListAsync();
+            var suppliers = await _suppliersService.GetAllAsync();
 
             return Ok(suppliers);
         }
@@ -32,10 +28,7 @@ namespace TechTask.Api.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Supplier>> GetSupplierById(int id)
         {
-            var supplier = await _dbContext.Suppliers
-                .AsNoTracking()
-                .Include(s => s.Products)
-                .FirstOrDefaultAsync(s => s.Id == id);
+            var supplier = await _suppliersService.GetByIdAsync(id);
 
             if (supplier == null)
             {
@@ -49,15 +42,8 @@ namespace TechTask.Api.Controllers
         [HttpPost]
         public async Task<ActionResult<Supplier>> PostSupplier([FromBody] Supplier supplier)
         {
-            try
-            {
-                await _dbContext.AddAsync(supplier);
-                await _dbContext.SaveChangesAsync();
-            }
-            catch (DbUpdateException exception)
-            {
-                return Problem(exception.Message);
-            }
+            var posted = await _suppliersService.PostAsync(supplier);
+            if (!posted) return Problem("Could not create supplier."); // something went wrong
 
             return CreatedAtAction(nameof(GetSupplierById), new { id = supplier.Id }, supplier);
         }
@@ -71,22 +57,8 @@ namespace TechTask.Api.Controllers
                 return BadRequest(); // ID mismatch between URL and body
             }
 
-            var existingEntity = await _dbContext.Suppliers.FindAsync(updSupplier.Id);
-            if (existingEntity == null) return NotFound(); //Nothing to update
-
-            _dbContext.Entry(existingEntity).CurrentValues.SetValues(updSupplier);
-
-            //Not using this because its update all the properties even they are not changed
-            //Context.Entry(entity).State = EntityState.Modified;
-
-            try
-            {
-                await _dbContext.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException exception)
-            {
-                return Problem(exception.Message);
-            }
+            var updated = await _suppliersService.UpdateAsync(updSupplier);
+            if (!updated) return NotFound(); // nothing to update
 
             return NoContent();
         }
@@ -95,15 +67,8 @@ namespace TechTask.Api.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteSupplierById(int id)
         {
-            var supplier = await _dbContext.Suppliers.FindAsync(id);
-
-            if (supplier == null)
-            {
-                return NotFound();
-            }
-
-            _dbContext.Suppliers.Remove(supplier);
-            await _dbContext.SaveChangesAsync();
+            var deleted = await _suppliersService.DeleteByIdAsync(id);
+            if (!deleted) return NotFound(); // nothing to delete
 
             return NoContent();
         }

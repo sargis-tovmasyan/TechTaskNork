@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using TechTask.Api.Database;
+using TechTask.Api.Interfaces;
 using TechTask.Api.Models;
 
 namespace TechTask.Api.Controllers
@@ -9,21 +8,18 @@ namespace TechTask.Api.Controllers
     [Route("api/[controller]")]
     public class TransactionsController : ControllerBase
     {
-        private readonly AppDbContext _dbContext;
+        private readonly ITransactionsService _transactionsService;
 
-        public TransactionsController(AppDbContext dbContext)
+        public TransactionsController(ITransactionsService transactionsService)
         {
-            _dbContext = dbContext;
+            _transactionsService = transactionsService;
         }
 
         // GET: api/Transactions
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Transaction>>> Get()
         {
-            var transactions = await _dbContext.Transactions
-                .AsNoTracking()
-                .Include(t => t.Product)
-                .ToListAsync();
+            var transactions = await _transactionsService.GetAllAsync();
 
             return Ok(transactions);
         }
@@ -32,10 +28,7 @@ namespace TechTask.Api.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Transaction>> GetTransactionById(int id)
         {
-            var transaction = await _dbContext.Transactions
-                .AsNoTracking()
-                .Include(t => t.Product)
-                .FirstOrDefaultAsync(t => t.Id == id);
+            var transaction = await _transactionsService.GetByIdAsync(id);
 
             if (transaction == null)
             {
@@ -49,38 +42,8 @@ namespace TechTask.Api.Controllers
         [HttpPost]
         public async Task<ActionResult<Transaction>> PostTransaction([FromBody] Transaction transaction)
         {
-            var product = await _dbContext.Products.FindAsync(transaction.ProductId);
-            if (product == null)
-            {
-                return BadRequest($"Invalid {nameof(transaction.ProductId)}");
-            }
-
-            switch (transaction.Type)
-            {
-                case TransactionType.Sale:
-                    if (product.StockQuantity < transaction.Quantity)
-                    {
-                        return BadRequest($"Not enough stock for product {product.Name}");
-                    }
-
-                    product.StockQuantity -= transaction.Quantity;
-                    break;
-                case TransactionType.Purchase:
-                    product.StockQuantity += transaction.Quantity;
-                    break;
-                default:
-                    return BadRequest($"Invalid {nameof(transaction.Type)}");
-            }
-
-            try
-            {
-                await _dbContext.Transactions.AddAsync(transaction);
-                await _dbContext.SaveChangesAsync();
-            }
-            catch (DbUpdateException exception)
-            {
-                return Problem(exception.Message);
-            }
+            var result = await _transactionsService.PostAsync(transaction);
+            if (!result) return Problem("Could not create Transaction."); // something went wrong
 
             return CreatedAtAction(nameof(GetTransactionById), new { id = transaction.Id }, transaction);
         }
@@ -89,15 +52,8 @@ namespace TechTask.Api.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteTransactionById(int id)
         {
-            var transaction = await _dbContext.Transactions.FindAsync(id);
-
-            if (transaction == null)
-            {
-                return NotFound();
-            }
-
-            _dbContext.Transactions.Remove(transaction);
-            await _dbContext.SaveChangesAsync();
+            var deleted = await _transactionsService.DeleteByIdAsync(id);
+            if (!deleted) return NotFound(); // nothing to delete
 
             return NoContent();
         }

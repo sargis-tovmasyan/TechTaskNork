@@ -1,65 +1,81 @@
-﻿using Microsoft.EntityFrameworkCore;
-using TechTask.Api.Database;
-using TechTask.Api.Models;
-using TechTask.Api.Services;
+﻿using TechTask.Api.Models;
 
-namespace TechTask.Api.Tests.Controllers;
+namespace TechTask.Api.Tests.Services;
 
-public class ProductsServiceTests
+public class ProductsServiceTests : UnitTestBase
 {
-    private ProductService GetServiceWithInMemoryDb(out AppDbContext context)
+    private Product GetProductForTest() => new Product
     {
-        var options = new DbContextOptionsBuilder<AppDbContext>()
-            .UseInMemoryDatabase(Guid.NewGuid().ToString()) // ensures clean DB for each test
-            .Options;
+        Name = "Test Product",
+        Price = 10.0,
+        StockQuantity = 100,
+        CategoryId = 1,
+        SupplierId = 1,
+    };
 
-        context = new AppDbContext(options);
-        return new ProductService(context);
+    [Fact]
+    public async Task GetAllAsync_Should_Return_All_Products()
+    {
+        var result = await ProductsService.GetAllAsync();
+
+        Assert.NotEmpty(result);
     }
+
+    [Fact]
+    public async Task GetByIdAsync_Should_Return_Product_If_Exists()
+    {
+        var result = await ProductsService.GetByIdAsync(1);
+
+        Assert.NotNull(result);
+        Assert.Equal("Smartphone", result.Name);
+    }
+
 
     [Fact]
     public async Task PostProductAsync_Should_Add_Product()
     {
-        var service = GetServiceWithInMemoryDb(out var context);
+        var product = GetProductForTest();
 
-        var product = new Product { Name = "Test", Price = 10 };
-
-        var result = await service.PostProductAsync(product);
+        var result = await ProductsService.PostAsync(product);
 
         Assert.True(result);
-        Assert.Single(context.Products);
     }
 
     [Fact]
     public async Task UpdateProductAsync_Should_Update_Product()
     {
-        var service = GetServiceWithInMemoryDb(out var context);
+        var product = GetProductForTest();
+        product.Name = "OldName";
 
-        var product = new Product { Name = "Old", Price = 5 };
-        context.Products.Add(product);
-        await context.SaveChangesAsync();
+        DbContext.Products.Add(product);
+        await DbContext.SaveChangesAsync();
 
-        product.Name = "Updated";
+        var updatedProduct = new Product
+        {
+            Id = product.Id,
+            Name = "Updated",
+            Price = product.Price,
+            StockQuantity = product.StockQuantity,
+            CategoryId = product.CategoryId,
+            SupplierId = product.SupplierId
+        };
 
-        var result = await service.UpdateProductAsync(product);
+        await ProductsService.UpdateAsync(updatedProduct);
 
-        Assert.True(result);
-        Assert.Equal("Updated", context.Products.First().Name);
+        var fromDb = await DbContext.Products.FindAsync(product.Id);
+        Assert.Equal("Updated", fromDb?.Name);
     }
 
     [Fact]
     public async Task DeleteProductByIdAsync_Should_Delete_Existing_Product()
     {
-        var service = GetServiceWithInMemoryDb(out var context);
+        var product = GetProductForTest();
+        await DbContext.Products.AddAsync(product);
+        await DbContext.SaveChangesAsync();
 
-        var product = new Product { Name = "ToDelete" };
-        context.Products.Add(product);
-        await context.SaveChangesAsync();
-
-        var result = await service.DeleteProductByIdAsync(product.Id);
+        var result = await ProductsService.DeleteByIdAsync(product.Id);
 
         Assert.True(result);
-        Assert.Empty(context.Products);
     }
 
 }

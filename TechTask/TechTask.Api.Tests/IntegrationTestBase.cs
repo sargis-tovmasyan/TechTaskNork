@@ -9,7 +9,7 @@ using TechTask.Api.Models;
 
 namespace TechTask.Api.Tests;
 
-public abstract class IntegrationTestBase : IClassFixture<WebApplicationFactory<Program>>, IDisposable
+public abstract class IntegrationTestBase : IClassFixture<WebApplicationFactory<Program>>
 {
     protected readonly HttpClient Client;
     private readonly string _dbFilePath;
@@ -50,6 +50,7 @@ public abstract class IntegrationTestBase : IClassFixture<WebApplicationFactory<
                 var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
                 context.Database.EnsureCreated();
 
+                // Seeding Category and Supplier
                 context.Categories.Add(new Category { Id = 1, Name = "Test Category" });
                 context.Suppliers.Add(new Supplier { Id = 1, Name = "Test Supplier" });
 
@@ -60,40 +61,5 @@ public abstract class IntegrationTestBase : IClassFixture<WebApplicationFactory<
         });
 
         Client = appFactory.CreateClient();
-    }
-
-    public void Dispose()
-    {
-        Dispose(disposing: true);
-        GC.SuppressFinalize(this);
-    }
-
-    protected virtual void Dispose(bool disposing)
-    {
-        if (_disposed) return;
-
-        if (disposing)
-        {
-            _connection?.Dispose();
-        }
-
-        if (File.Exists(_dbFilePath))
-        {
-            try
-            {
-                File.Delete(_dbFilePath);
-            }
-            catch
-            {
-                // Ignore
-            }
-        }
-
-        _disposed = true;
-    }
-
-    ~IntegrationTestBase()
-    {
-        Dispose(disposing: false);
     }
 }

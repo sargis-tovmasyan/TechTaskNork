@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using TechTask.Api.Interfaces;
 using TechTask.Api.Models;
-using TechTask.Api.Services;
 
 namespace TechTask.Api.Controllers
 {
@@ -9,9 +8,9 @@ namespace TechTask.Api.Controllers
     [Route("api/[controller]")]
     public class ProductsController : ControllerBase
     {
-        private readonly IProductService _productService;
+        private readonly IProductsService _productService;
 
-        public ProductsController(IProductService productService)
+        public ProductsController(IProductsService productService)
         {
             _productService = productService;
         }
@@ -20,7 +19,7 @@ namespace TechTask.Api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Product>>> Get()
         {
-            var products = await _productService.GetProductsAsync();
+            var products = await _productService.GetAllAsync();
 
             return Ok(products);
         }
@@ -29,7 +28,7 @@ namespace TechTask.Api.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Product>> GetProductById(int id)
         {
-            var product = await _productService.GetProductByIdAsync(id);
+            var product = await _productService.GetByIdAsync(id);
 
             if (product == null)
             {
@@ -43,7 +42,7 @@ namespace TechTask.Api.Controllers
         [HttpPost]
         public async Task<ActionResult<Product>> PostProduct([FromBody] Product product)
         {
-            var posted = await _productService.PostProductAsync(product);
+            var posted = await _productService.PostAsync(product);
             if (!posted) return Problem("Could not create product."); // something went wrong
 
             return CreatedAtAction(nameof(GetProductById), new { id = product.Id }, product);
@@ -55,7 +54,7 @@ namespace TechTask.Api.Controllers
         {
             if (id != updProduct.Id) return BadRequest(); // ID mismatch between URL and body
 
-            var updated = await _productService.UpdateProductAsync(updProduct);
+            var updated = await _productService.UpdateAsync(updProduct);
             if (!updated) return NotFound(); // nothing to update
 
             return NoContent();
@@ -65,7 +64,7 @@ namespace TechTask.Api.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteProductById(int id)
         {
-            var deleted = await _productService.DeleteProductByIdAsync(id);
+            var deleted = await _productService.DeleteByIdAsync(id);
             if (!deleted) return NotFound(); // nothing to delete
 
             return NoContent();

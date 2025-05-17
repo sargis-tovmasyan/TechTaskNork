@@ -5,17 +5,17 @@ using TechTask.Api.Models;
 
 namespace TechTask.Api.Services
 {
-    public class ProductService : IProductService
+    public class ProductsService : IProductsService
     {
         private readonly AppDbContext _dbContext;
 
-        public ProductService(AppDbContext dbContext)
+        public ProductsService(AppDbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
 
-        public async Task<IEnumerable<Product>> GetProductsAsync()
+        public async Task<IEnumerable<Product>> GetAllAsync()
         {
             return await _dbContext.Products
                 .AsNoTracking()
@@ -24,7 +24,7 @@ namespace TechTask.Api.Services
                 .ToListAsync();
         }
 
-        public async Task<Product?> GetProductByIdAsync(int id)
+        public async Task<Product?> GetByIdAsync(int id)
         {
             return await _dbContext.Products
                 .AsNoTracking()
@@ -33,7 +33,7 @@ namespace TechTask.Api.Services
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
 
-        public async Task<bool> PostProductAsync(Product product)
+        public async Task<bool> PostAsync(Product product)
         {
             try
             {
@@ -47,7 +47,7 @@ namespace TechTask.Api.Services
             }
         }
 
-        public async Task<bool> UpdateProductAsync(Product updProduct)
+        public async Task<bool> UpdateAsync(Product updProduct)
         {
             var existingEntity = await _dbContext.Products.FindAsync(updProduct.Id);
             if (existingEntity == null) return false; //Nothing to update
@@ -62,7 +62,7 @@ namespace TechTask.Api.Services
             return true;
         }
 
-        public async Task<bool> DeleteProductByIdAsync(int id)
+        public async Task<bool> DeleteByIdAsync(int id)
         {
             var product = await _dbContext.Products.FindAsync(id);
 

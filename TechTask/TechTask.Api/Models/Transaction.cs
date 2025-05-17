@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace TechTask.Api.Models
 {
@@ -25,10 +26,11 @@ namespace TechTask.Api.Models
 
         [Required(ErrorMessage = "Transaction type is required.")]
         [EnumDataType(typeof(TransactionType), ErrorMessage = "Invalid transaction type.")]
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public TransactionType Type { get; set; }
 
         [Required(ErrorMessage = "Product ID is required.")]
         public int ProductId { get; set; }
-        public Product Product { get; set; } 
+        public Product? Product { get; set; } 
     }
 }

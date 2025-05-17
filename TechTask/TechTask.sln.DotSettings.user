@@ -8,6 +8,15 @@
     &lt;TestId&gt;xUnit::A64A4B9D-7357-4710-AFA9-6E5CB03F426E::net9.0::TechTask.Api.Tests.Controllers.ProductsControllerTests.PostProduct_With_Invalid_model_Should_Return_BadRequest&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;xUnit::A64A4B9D-7357-4710-AFA9-6E5CB03F426E::net9.0::TechTask.Api.Tests.Controllers.ProductsControllerTests.UpdateProduct_With_Invalid_id_Should_Return_NotFound&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;xUnit::A64A4B9D-7357-4710-AFA9-6E5CB03F426E::net9.0::TechTask.Api.Tests.Controllers.ProductsControllerTests.DeleteProduct_WithInvalidId_Should_Return_NotFound&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::A64A4B9D-7357-4710-AFA9-6E5CB03F426E::net9.0::TechTask.Api.Tests.Controllers.ProductsControllerTests.GetProductById_With_invalid_Id_Should_Return_NotFound&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::A64A4B9D-7357-4710-AFA9-6E5CB03F426E::net9.0::TechTask.Api.Tests.Controllers.CategoriesControllerTests.DeleteCategory_Should_Return_NoContent&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::A64A4B9D-7357-4710-AFA9-6E5CB03F426E::net9.0::TechTask.Api.Tests.Services.TransactionsServiceTests.PostTransactionAsync_Test&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::A64A4B9D-7357-4710-AFA9-6E5CB03F426E::net9.0::TechTask.Api.Tests.Services.TransactionsServiceTests.PostTransactionAsync_Sales_Transactions_Increasing_Products_StockQuantity&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::A64A4B9D-7357-4710-AFA9-6E5CB03F426E::net9.0::TechTask.Api.Tests.Controllers.TransactionControllerTests.DeleteTransaction_Should_Return_NoContent&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::A64A4B9D-7357-4710-AFA9-6E5CB03F426E::net9.0::TechTask.Api.Tests.Controllers.TransactionControllerTests.UpdateTransaction_With_Invalid_id_Should_Return_NotFound&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::A64A4B9D-7357-4710-AFA9-6E5CB03F426E::net9.0::TechTask.Api.Tests.Controllers.TransactionControllerTests.UpdateTransaction_With_Invalid_id_Should_Return_MethodNotAllowed&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::A64A4B9D-7357-4710-AFA9-6E5CB03F426E::net9.0::TechTask.Api.Tests.Controllers.TransactionControllerTests.PostTransaction_With_Invalid_model_Should_Return_BadRequest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::A64A4B9D-7357-4710-AFA9-6E5CB03F426E::net9.0::TechTask.Api.Tests.Controllers.TransactionControllerTests.UpdateTransaction_Should_Return_MethodNotAllowed&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=790cc410_002De10b_002D475f_002Db863_002Da67dfcac50c5/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="PostProduct_Should_Return_Created" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
